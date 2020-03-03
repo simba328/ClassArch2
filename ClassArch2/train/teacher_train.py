@@ -21,7 +21,7 @@ from ClassArch2.models.pointnet2_msg_cls import Pointnet2MSG as Pointnet
 from ClassArch2.models.pointnet2_msg_cls import model_fn_decorator
 from ClassArch2.data.ModelNet40Loader import ModelNet40
 import ClassArch2.data.data_utils as d_utils
-from RandAugment3D.augmentation import RandAugment3D
+# from RandAugment3D.augmentation import RandAugment3D
 
 torch.backends.cudnn.enabled = True
 torch.backends.cudnn.benchmark = True
