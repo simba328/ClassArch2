@@ -17,9 +17,9 @@ import os.path as osp
 import os
 import argparse
 
-from ClassArch2.models import Pointnet2ClsMSG as Pointnet
+from ClassArch2.models.pointnet2_msg_cls import Pointnet2ClsMSG as Pointnet
 from ClassArch2.models.pointnet2_msg_cls import model_fn_decorator
-from ClassArch2.data import ModelNet40
+from ClassArch2.data.ModelNet40Loader import ModelNet40
 import ClassArch2.data.data_utils as d_utils
 from RandAugment3D.augmentation import RandAugment3D
 
