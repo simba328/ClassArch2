@@ -82,7 +82,7 @@ if __name__ == "__main__":
         ]
     )
 
-    test_set = ModelNet40(args.num_points, transforms=transforms, train=False)
+    test_set = ModelNet40(args.num_points, transforms=transforms, split='test')
     test_loader = DataLoader(
         test_set,
         batch_size=args.batch_size,
@@ -91,7 +91,7 @@ if __name__ == "__main__":
         pin_memory=True,
     )
 
-    train_set = ModelNet40(args.num_points, transforms=transforms)
+    train_set = ModelNet40(args.num_points, transforms=transforms, split='train')
     train_loader = DataLoader(
         train_set,
         batch_size=args.batch_size,
