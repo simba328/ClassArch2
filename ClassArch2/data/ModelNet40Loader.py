@@ -41,7 +41,7 @@ class ModelNet40(data.Dataset):
         if download and not os.path.exists(self.data_dir):
             zipfile = os.path.join(BASE_DIR, os.path.basename(self.url))
             subprocess.check_call(
-                shlex.split("curl {} -o {}".format(self.url, zipfile))
+                shlex.split("wget {} -o {}".format(self.url, zipfile))
             )
 
             subprocess.check_call(
