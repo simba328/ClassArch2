@@ -13,7 +13,7 @@ import h5py
 import subprocess
 import shlex
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = './'
 
 
 def _get_data_files(list_filename):
