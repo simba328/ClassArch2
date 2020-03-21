@@ -82,18 +82,24 @@ if __name__ == '__main__':
     args.device = torch.device('cuda:%d' % (args.gpu_id) if torch.cuda.is_available() else 'cpu')
 
 
+    train_stu_file = open(os.path.join(args.dataroot, 'train_stu_files.txt'), 'w')
+
     with open(os.path.join(args.dataroot, 'shape_names.txt'), 'r') as f:
         labels = [str.rstrip() for str in f.readlines()]
 
     with open(os.path.join(args.dataroot, 'unlabeled_files.txt'), 'r') as f:
         files = [str.rstrip() for str in f.readlines()]
     
+    with open(os.path.join(args.dataroot, 'train_files.txt'), 'r') as f:
+        train_files = f.read()
+        train_stu_file.write(train_files)
+    
     som_folder_list = []
     for i in range(3, 12):
         som_folder_list.append("%dx%d_som_nodes" %(i, i))
 
+    shutil.rmtree(os.path.join(args.dataroot, "train_stu"))
     copy_tree(os.path.join(args.dataroot, "train"), os.path.join(args.dataroot, "train_stu"))
-    train_stu_file = open(os.path.join(args.dataroot, 'train_stu_files.txt'), 'w')
     # initDir(os.path.join(args.dataroot, "pseudo_labeled"), labels, som_folder_list)
 
     torch.multiprocessing.freeze_support()
@@ -133,14 +139,17 @@ if __name__ == '__main__':
         for pred in predicted_idx:
             folder = files[data_cnt][0:-5]
             file_name = files[data_cnt]
+            file_name_p = file_name.replace(folder, labels[pred]) + ":" + folder
+
             start_path = os.path.join(args.dataroot, "unlabeled", folder, file_name + '.npy')
-            dest_path = os.path.join(args.dataroot, "train_stu", labels[pred], file_name + '.npy')
+            dest_path = os.path.join(args.dataroot, "train_stu", labels[pred], file_name_p + '.npy')
+
             shutil.copyfile(start_path, dest_path)
             for som_nodes_folder in som_folder_list:
                 start_path = os.path.join(args.dataroot, "unlabeled", som_nodes_folder, folder, file_name + '.npy')
-                dest_path = os.path.join(args.dataroot, "train_stu", som_nodes_folder, labels[pred], file_name + '.npy')
+                dest_path = os.path.join(args.dataroot, "train_stu", som_nodes_folder, labels[pred], file_name_p + '.npy')
                 shutil.copyfile(start_path, dest_path)
-            train_stu_file.write(file_name)
+            train_stu_file.write(file_name_p + "\n")
             data_cnt += 1
 
     train_stu_file.close()

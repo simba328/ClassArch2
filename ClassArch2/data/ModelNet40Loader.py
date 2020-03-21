@@ -132,7 +132,8 @@ class ModelNet40_SONet(data.Dataset):
 
         for i, name in enumerate(lines):
             # locate the folder name
-            folder = name[0:-5]
+            folder = name.split(":")[0]
+            folder = folder[0:-5]
             file_name = name
 
             # get the label
